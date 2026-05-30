@@ -5,7 +5,7 @@ header('Cache-Control: no-store, no-cache, must-revalidate');
 
 // ============================================================
 // COLOQUE O LINK DE DESTINO AQUI
-$url = 'https://SEU-LINK-AQUI.com';
+$url = 'https://chutpremiumnow.vercel.app/';
 // ============================================================
 
 echo json_encode(['u' => $url]);
