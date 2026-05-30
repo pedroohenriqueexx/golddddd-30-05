@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Status de Atividade</title>
+<style>
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background-color: #000;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.page-frame {
+  width: 100%;
+  max-width: 450px;
+  background: #0d0d0f;
+  border-radius: 24px;
+  padding: 26px;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 50px rgba(0, 242, 234, 0.15);
+}
+
+.page-frame::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, #00F2EA, #FF0050);
+  border-radius: 4px 0 0 4px;
+}
+
+.logo-section {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo-section img {
+  width: 95px;
+}
+
+.page-title {
+  font-size: 21px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.page-title .highlight {
+  background: linear-gradient(90deg, #00F2EA, #FF0050);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: #aaaaaa;
+  line-height: 1.5;
+  margin-bottom: 22px;
+}
+
+.metrics-panel {
+  background: #141417;
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.metrics-label {
+  font-size: 12px;
+  color: #FF0050;
+  letter-spacing: 0.6px;
+  margin-bottom: 14px;
+}
+
+.metric-row {
+  margin-bottom: 15px;
+}
+
+.metric-row:last-child {
+  margin-bottom: 0;
+}
+
+.metric-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.metric-bar {
+  height: 6px;
+  background: #1f1f23;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.metric-progress {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #00F2EA, #FF0050);
+  transition: width 0.3s ease;
+}
+
+.metric-value {
+  font-size: 12px;
+  color: #888888;
+}
+
+.metric-value.done {
+  color: #00F2EA;
+  font-weight: 600;
+}
+
+.status-line {
+  text-align: center;
+  font-size: 12px;
+  color: #888888;
+  margin: 14px 0 18px;
+  min-height: 18px;
+}
+
+.proceed-btn {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #00F2EA;
+  border-radius: 12px;
+  background: #1a1a1d;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s, background 0.25s, color 0.25s;
+}
+
+.proceed-btn.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.proceed-btn:hover {
+  background: #00F2EA;
+  color: #000000;
+}
+
+.redirect-screen {
+  position: fixed;
+  inset: 0;
+  background: #000000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 9999;
+}
+
+.spin-ring {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 6px solid rgba(255, 255, 255, 0.08);
+  border-top-color: #00F2EA;
+  border-right-color: #FF0050;
+  animation: rotate 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes rotate {
+  to { transform: rotate(360deg); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page-frame">
+
+  <div class="logo-section">
+    <img src="images/tk-logo.png" alt="Logo">
+  </div>
+
+  <div class="page-title">
+    Requisitos <span class="highlight">confirmados</span>
+  </div>
+
+  <div class="page-subtitle">
+    Identificamos que sua atividade recente atende aos parâmetros necessários. O processamento abaixo valida cada etapa antes de avançar.
+  </div>
+
+  <div class="metrics-panel">
+
+    <div class="metrics-label">ANÁLISE EM TEMPO REAL</div>
+
+    <div class="metric-row" data-max="50">
+      <div class="metric-header">
+        <span>Visualizações registradas</span>
+        <span class="metric-value">0/50</span>
+      </div>
+      <div class="metric-bar">
+        <div class="metric-progress"></div>
+      </div>
+    </div>
+
+    <div class="metric-row" data-max="1000">
+      <div class="metric-header">
+        <span>Tempo acumulado</span>
+        <span class="metric-value">0/1000</span>
+      </div>
+      <div class="metric-bar">
+        <div class="metric-progress"></div>
+      </div>
+    </div>
+
+    <div class="metric-row" data-max="100">
+      <div class="metric-header">
+        <span>Engajamentos computados</span>
+        <span class="metric-value">0/100</span>
+      </div>
+      <div class="metric-bar">
+        <div class="metric-progress"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="status-line" id="liveStatus">Iniciando validação...</div>
+
+  <button class="proceed-btn" id="continueBtn">Continuar</button>
+
+</div>
+
+<div class="redirect-screen" id="loadingScreen">
+  <div class="spin-ring"></div>
+  <div style="color: #fff; font-size: 14px;">Carregando próxima etapa...</div>
+</div>
+
+<script>
+(function () {
+  var rows = Array.from(document.querySelectorAll('.metric-row'));
+  var liveStatus = document.getElementById('liveStatus');
+  var continueBtn = document.getElementById('continueBtn');
+
+  var stepMessages = [
+    'Analisando visualizações...',
+    'Calculando tempo acumulado...',
+    'Processando engajamentos...',
+    'Processamento concluído.'
+  ];
+
+  function runStep(idx) {
+    var row = rows[idx];
+    var total = parseInt(row.getAttribute('data-max'), 10);
+    var valueEl = row.querySelector('.metric-value');
+    var progressEl = row.querySelector('.metric-progress');
+
+    var current = 0;
+    var increment = total > 500 ? 40 : total > 200 ? 20 : 1;
+
+    liveStatus.textContent = stepMessages[idx];
+
+    var timer = setInterval(function () {
+      current += increment;
+      if (current >= total) current = total;
+
+      valueEl.textContent = current + '/' + total;
+      progressEl.style.width = ((current / total) * 100) + '%';
+
+      if (current >= total) {
+        clearInterval(timer);
+        valueEl.classList.add('done');
+
+        if (idx < rows.length - 1) {
+          setTimeout(function () { runStep(idx + 1); }, 500);
+        } else {
+          liveStatus.textContent = stepMessages[3];
+          continueBtn.classList.add('active');
+        }
+      }
+    }, 40);
+  }
+
+  runStep(0);
+
+  continueBtn.addEventListener('click', function () {
+    document.getElementById('loadingScreen').style.display = 'flex';
+    fetch('/api/link')
+      .then(function (res) { return res.json(); })
+      .then(function (data) { window.location.href = data.u; })
+      .catch(function () { window.location.href = '/'; });
+  });
+}());
+</script>
+
+</body>
+</html>
